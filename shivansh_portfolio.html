@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Shivansh Mishra — Mushroom Cultivation Specialist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet" />
+<style>
+/* ── RESET & BASE ── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: #0D1F18;
+  color: #E8F0EB;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+img { max-width: 100%; display: block; }
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; }
+
+/* ── TOKENS ── */
+:root {
+  --green-deep:   #0D1F18;
+  --green-dark:   #132B1F;
+  --green-mid:    #1E4332;
+  --green-accent: #2D6A4F;
+  --green-bright: #52B788;
+  --cream:        #D8F3DC;
+  --cream-soft:   #B7E4C7;
+  --text-primary: #E8F0EB;
+  --text-muted:   #8BAF95;
+  --text-faint:   #4E7360;
+  --border:       rgba(255,255,255,0.07);
+  --border-bright: rgba(82,183,136,0.25);
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --sans:  'DM Sans', sans-serif;
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--green-deep); }
+::-webkit-scrollbar-thumb { background: var(--green-accent); border-radius: 4px; }
+
+/* ── NOISE TEXTURE OVERLAY ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.5;
+}
+
+/* ── NAVIGATION ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  padding: 1.25rem 2.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background 0.4s, backdrop-filter 0.4s;
+}
+nav.scrolled {
+  background: rgba(13,31,24,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo {
+  font-family: var(--serif);
+  font-size: 1.4rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--cream);
+}
+.nav-logo span { color: var(--green-bright); }
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+.nav-links a {
+  font-size: 0.8rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--green-bright); }
+.nav-cta {
+  border: 1px solid var(--border-bright) !important;
+  color: var(--green-bright) !important;
+  padding: 0.4rem 1.1rem;
+  border-radius: 100px;
+  transition: background 0.2s !important;
+}
+.nav-cta:hover { background: rgba(82,183,136,0.12) !important; }
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 4px;
+}
+.hamburger span {
+  display: block;
+  width: 22px;
+  height: 1.5px;
+  background: var(--cream);
+  transition: all 0.3s;
+}
+
+/* ── HERO ── */
+#hero {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  position: relative;
+  z-index: 1;
+}
+.hero-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 8rem 3rem 5rem 2.5rem;
+}
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--green-bright);
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  transform: translateY(16px);
+  animation: fadeUp 0.7s 0.2s forwards;
+}
+.hero-eyebrow::before {
+  content: '';
+  width: 28px; height: 1px;
+  background: var(--green-bright);
+  display: block;
+}
+.hero-name {
+  font-family: var(--serif);
+  font-size: clamp(3rem, 5vw, 5.5rem);
+  font-weight: 500;
+  line-height: 1.0;
+  letter-spacing: -0.03em;
+  color: var(--cream);
+  margin-bottom: 0.2rem;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp 0.7s 0.35s forwards;
+}
+.hero-name em {
+  font-style: italic;
+  color: var(--green-bright);
+}
+.hero-role {
+  font-family: var(--serif);
+  font-size: clamp(1.1rem, 2vw, 1.6rem);
+  font-weight: 400;
+  color: var(--text-muted);
+  margin-bottom: 1.75rem;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp 0.7s 0.45s forwards;
+}
+.hero-desc {
+  font-size: 0.9rem;
+  line-height: 1.85;
+  color: var(--text-muted);
+  max-width: 440px;
+  margin-bottom: 2.5rem;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp 0.7s 0.55s forwards;
+}
+.hero-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp 0.7s 0.65s forwards;
+}
+.btn-primary {
+  background: var(--green-bright);
+  color: var(--green-deep);
+  border: none;
+  padding: 0.75rem 1.75rem;
+  border-radius: 100px;
+  font-family: var(--sans);
+  font-size: 0.82rem;
+  font-weight: 500;
+  cursor: pointer;
+  letter-spacing: 0.02em;
+  transition: background 0.2s, transform 0.15s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn-primary:hover { background: var(--cream-soft); transform: translateY(-1px); }
+.btn-secondary {
+  background: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--border-bright);
+  padding: 0.75rem 1.75rem;
+  border-radius: 100px;
+  font-family: var(--sans);
+  font-size: 0.82rem;
+  font-weight: 400;
+  cursor: pointer;
+  letter-spacing: 0.02em;
+  transition: border-color 0.2s, color 0.2s, transform 0.15s;
+}
+.btn-secondary:hover { border-color: var(--green-bright); color: var(--green-bright); transform: translateY(-1px); }
+.hero-available {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.72rem;
+  color: var(--green-bright);
+  margin-top: 2rem;
+  opacity: 0;
+  animation: fadeUp 0.7s 0.75s forwards;
+}
+.pulse-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--green-bright);
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(82,183,136,0.4); }
+  50% { opacity: 0.6; box-shadow: 0 0 0 5px rgba(82,183,136,0); }
+}
+.hero-right {
+  background: var(--green-dark);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8rem 2rem 5rem;
+  position: relative;
+  border-left: 1px solid var(--border);
+  gap: 2rem;
+  opacity: 0;
+  animation: fadeIn 1s 0.5s forwards;
+}
+/* MUSHROOM SVG illustration */
+.mushroom-art {
+  width: 180px;
+  height: 180px;
+}
+.hero-stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  width: 100%;
+  max-width: 300px;
+}
+.hero-stat {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem;
+  text-align: center;
+}
+.hero-stat-num {
+  font-family: var(--serif);
+  font-size: 2rem;
+  font-weight: 500;
+  color: var(--green-bright);
+  display: block;
+  line-height: 1;
+}
+.hero-stat-label {
+  font-size: 0.68rem;
+  color: var(--text-faint);
+  letter-spacing: 0.05em;
+  margin-top: 4px;
+  display: block;
+}
+.hero-location {
+  font-size: 0.72rem;
+  color: var(--text-faint);
+  letter-spacing: 0.06em;
+}
+
+/* ── SECTION COMMON ── */
+section { position: relative; z-index: 1; }
+.section-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 6rem 2.5rem;
+}
+.section-label {
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--green-bright);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 0.6rem;
+}
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+  max-width: 60px;
+}
+.section-title {
+  font-family: var(--serif);
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--cream);
+  margin-bottom: 0.75rem;
+}
+.section-sub {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  max-width: 500px;
+  line-height: 1.8;
+  margin-bottom: 3.5rem;
+}
+
+/* ── ABOUT ── */
+#about { background: var(--green-dark); border-top: 1px solid var(--border); }
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 4rem;
+  align-items: start;
+}
+.about-body p {
+  font-size: 0.875rem;
+  line-height: 1.95;
+  color: var(--text-muted);
+  margin-bottom: 1.1rem;
+}
+.about-body p:last-child { margin-bottom: 0; }
+.about-highlight {
+  color: var(--green-bright);
+  font-weight: 500;
+}
+.about-values { display: flex; flex-direction: column; gap: 1rem; }
+.value-card {
+  display: flex;
+  gap: 1rem;
+  padding: 1.1rem 1.25rem;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  transition: border-color 0.2s, background 0.2s;
+}
+.value-card:hover {
+  border-color: var(--border-bright);
+  background: rgba(82,183,136,0.05);
+}
+.value-icon {
+  width: 38px; height: 38px;
+  background: rgba(82,183,136,0.12);
+  border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  font-size: 17px;
+}
+.value-card h4 { font-size: 0.84rem; font-weight: 500; color: var(--cream); margin-bottom: 3px; }
+.value-card p { font-size: 0.78rem; color: var(--text-muted); line-height: 1.6; }
+
+/* ── SKILLS ── */
+#skills { border-top: 1px solid var(--border); }
+.skills-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3.5rem;
+  align-items: start;
+}
+.skill-group-title {
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin-bottom: 1.25rem;
+  font-weight: 500;
+}
+.skill-bars { display: flex; flex-direction: column; gap: 1rem; }
+.skill-bar-item {}
+.skill-bar-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+.skill-bar-track {
+  height: 3px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 100px;
+  overflow: hidden;
+}
+.skill-bar-fill {
+  height: 100%;
+  background: var(--green-bright);
+  border-radius: 100px;
+  width: 0;
+  transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.skill-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.chip {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 5px 14px;
+  transition: border-color 0.2s, color 0.2s;
+}
+.chip:hover { border-color: var(--border-bright); color: var(--green-bright); }
+
+/* ── EXPERIENCE ── */
+#experience { background: var(--green-dark); border-top: 1px solid var(--border); }
+.timeline {
+  position: relative;
+  padding-left: 2.5rem;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 6px; bottom: 6px;
+  width: 1px;
+  background: linear-gradient(to bottom, var(--green-accent), transparent);
+}
+.timeline-item {
+  position: relative;
+  margin-bottom: 3rem;
+  opacity: 0;
+  transform: translateX(-16px);
+  transition: opacity 0.6s, transform 0.6s;
+}
+.timeline-item.visible { opacity: 1; transform: translateX(0); }
+.timeline-dot {
+  position: absolute;
+  left: -2.5rem;
+  top: 5px;
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: var(--green-bright);
+  border: 2px solid var(--green-deep);
+  transform: translateX(-4px);
+}
+.timeline-dot.current { box-shadow: 0 0 0 4px rgba(82,183,136,0.2); }
+.timeline-period {
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--green-bright);
+  margin-bottom: 0.3rem;
+}
+.timeline-role {
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: var(--cream);
+  margin-bottom: 0.2rem;
+}
+.timeline-org {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 0.9rem;
+}
+.timeline-summary {
+  font-size: 0.84rem;
+  color: var(--text-muted);
+  line-height: 1.75;
+  margin-bottom: 0.75rem;
+}
+.timeline-bullets {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.timeline-bullets li {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  padding-left: 1.1rem;
+  position: relative;
+  line-height: 1.7;
+}
+.timeline-bullets li::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 9px;
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: var(--green-accent);
+}
+
+/* ── PROJECTS ── */
+#projects { border-top: 1px solid var(--border); }
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.25rem;
+}
+.project-card {
+  background: rgba(255,255,255,0.025);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.75rem;
+  transition: border-color 0.25s, background 0.25s, transform 0.25s;
+  cursor: default;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s, transform 0.5s, border-color 0.25s, background 0.25s;
+}
+.project-card.visible { opacity: 1; transform: translateY(0); }
+.project-card:hover {
+  border-color: var(--border-bright);
+  background: rgba(82,183,136,0.05);
+  transform: translateY(-3px);
+}
+.project-icon {
+  width: 46px; height: 46px;
+  background: rgba(82,183,136,0.1);
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px;
+  margin-bottom: 1.25rem;
+}
+.project-title {
+  font-size: 0.98rem;
+  font-weight: 500;
+  color: var(--cream);
+  margin-bottom: 0.5rem;
+}
+.project-desc {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.75;
+  margin-bottom: 1.25rem;
+}
+.project-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tag {
+  font-size: 0.68rem;
+  background: rgba(82,183,136,0.1);
+  color: var(--green-bright);
+  border: 1px solid rgba(82,183,136,0.2);
+  border-radius: 100px;
+  padding: 3px 10px;
+  font-weight: 500;
+}
+
+/* ── EDUCATION ── */
+#education { background: var(--green-dark); border-top: 1px solid var(--border); }
+.education-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.25rem;
+}
+.edu-card {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.5rem;
+  background: rgba(255,255,255,0.025);
+  transition: border-color 0.2s;
+}
+.edu-card:hover { border-color: var(--border-bright); }
+.edu-degree {
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--cream);
+  margin-bottom: 0.3rem;
+}
+.edu-school {
+  font-size: 0.8rem;
+  color: var(--green-bright);
+  margin-bottom: 0.2rem;
+}
+.edu-year { font-size: 0.72rem; color: var(--text-faint); }
+
+/* ── CONTACT ── */
+#contact { border-top: 1px solid var(--border); }
+.contact-wrap {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 4rem;
+  align-items: start;
+}
+.contact-tagline {
+  font-family: var(--serif);
+  font-size: clamp(1.8rem, 3vw, 2.8rem);
+  font-weight: 500;
+  color: var(--cream);
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+.contact-tagline em { font-style: italic; color: var(--green-bright); }
+.contact-body {
+  font-size: 0.84rem;
+  color: var(--text-muted);
+  line-height: 1.8;
+  margin-bottom: 2rem;
+}
+.contact-items { display: flex; flex-direction: column; gap: 14px; }
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  transition: color 0.2s;
+}
+.contact-item:hover { color: var(--green-bright); }
+.contact-icon {
+  width: 36px; height: 36px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px;
+  flex-shrink: 0;
+  color: var(--green-bright);
+  transition: border-color 0.2s, background 0.2s;
+}
+.contact-item:hover .contact-icon {
+  border-color: var(--border-bright);
+  background: rgba(82,183,136,0.08);
+}
+/* Form */
+.contact-form { display: flex; flex-direction: column; gap: 14px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.contact-form input,
+.contact-form textarea,
+.contact-form select {
+  width: 100%;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  font-family: var(--sans);
+  font-size: 0.82rem;
+  color: var(--text-primary);
+  outline: none;
+  transition: border-color 0.2s;
+}
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+  color: var(--text-faint);
+}
+.contact-form input:focus,
+.contact-form textarea:focus {
+  border-color: var(--border-bright);
+}
+.contact-form textarea { min-height: 120px; resize: vertical; }
+.form-submit {
+  align-self: flex-start;
+  background: var(--green-bright);
+  color: var(--green-deep);
+  border: none;
+  padding: 0.75rem 1.75rem;
+  border-radius: 100px;
+  font-family: var(--sans);
+  font-size: 0.82rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.form-submit:hover { background: var(--cream-soft); transform: translateY(-1px); }
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 1.75rem 2.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--green-deep);
+  position: relative;
+  z-index: 1;
+}
+.footer-copy { font-size: 0.72rem; color: var(--text-faint); }
+.footer-copy span { color: var(--green-bright); }
+.footer-links { display: flex; gap: 1.5rem; }
+.footer-links a {
+  font-size: 0.72rem;
+  color: var(--text-faint);
+  transition: color 0.2s;
+}
+.footer-links a:hover { color: var(--green-bright); }
+
+/* ── SCROLL REVEAL ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+/* ── MOBILE NAV ── */
+@media (max-width: 768px) {
+  .hamburger { display: flex; }
+  .nav-links {
+    position: fixed;
+    inset: 0;
+    background: rgba(13,31,24,0.97);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2.5rem;
+    font-size: 1.1rem;
+    transform: translateX(100%);
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 999;
+  }
+  .nav-links.open { transform: translateX(0); }
+  .nav-links a { font-size: 1rem; }
+  #hero { grid-template-columns: 1fr; min-height: auto; }
+  .hero-left { padding: 7rem 1.5rem 3rem; }
+  .hero-right { padding: 3rem 1.5rem 5rem; border-left: none; border-top: 1px solid var(--border); }
+  .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+  .skills-layout { grid-template-columns: 1fr; gap: 2.5rem; }
+  .contact-wrap { grid-template-columns: 1fr; gap: 2.5rem; }
+  .form-row { grid-template-columns: 1fr; }
+  .section-inner { padding: 4rem 1.5rem; }
+  footer { flex-direction: column; gap: 1rem; text-align: center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-logo">S<span>.</span>Mishra</div>
+  <div class="nav-links" id="navLinks">
+    <a href="#about" onclick="closeMenu()">About</a>
+    <a href="#skills" onclick="closeMenu()">Skills</a>
+    <a href="#experience" onclick="closeMenu()">Experience</a>
+    <a href="#projects" onclick="closeMenu()">Projects</a>
+    <a href="#contact" onclick="closeMenu()" class="nav-cta">Contact</a>
+  </div>
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">Mushroom Cultivation Specialist</div>
+    <h1 class="hero-name">Shivansh<br><em>Mishra</em></h1>
+    <p class="hero-role">Farm Operations Lead · Labh Earth</p>
+    <p class="hero-desc">
+      I build mushroom farms that actually work — from substrate to harvest. End-to-end cultivation systems, quality-controlled production, and scalable agribusiness models for India's growing fungi sector.
+    </p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-primary">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Get in touch
+      </a>
+      <a href="#experience" class="btn-secondary">View my work</a>
+    </div>
+    <div class="hero-available">
+      <div class="pulse-dot"></div>
+      Open to new opportunities
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <!-- Bespoke mushroom SVG illustration -->
+    <svg class="mushroom-art" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- glow -->
+      <ellipse cx="90" cy="160" rx="50" ry="8" fill="#2D6A4F" opacity="0.25"/>
+      <!-- stem -->
+      <rect x="74" y="105" width="32" height="52" rx="14" fill="#1E4332"/>
+      <rect x="80" y="105" width="8" height="52" rx="4" fill="#2D6A4F" opacity="0.4"/>
+      <!-- cap -->
+      <ellipse cx="90" cy="100" rx="62" ry="14" fill="#1E4332"/>
+      <path d="M28 100 Q90 30 152 100 Z" fill="#2D6A4F"/>
+      <path d="M28 100 Q90 30 152 100 Z" fill="url(#capGrad)"/>
+      <!-- spots -->
+      <circle cx="70" cy="72" r="8" fill="rgba(216,243,220,0.12)" stroke="rgba(216,243,220,0.15)" stroke-width="1"/>
+      <circle cx="112" cy="68" r="6" fill="rgba(216,243,220,0.1)" stroke="rgba(216,243,220,0.15)" stroke-width="1"/>
+      <circle cx="90" cy="58" r="5" fill="rgba(216,243,220,0.09)" stroke="rgba(216,243,220,0.12)" stroke-width="1"/>
+      <!-- gills underside -->
+      <ellipse cx="90" cy="100" rx="62" ry="14" fill="#132B1F" opacity="0.6"/>
+      <!-- rim highlight -->
+      <path d="M28 100 Q90 108 152 100" stroke="#52B788" stroke-width="1.5" fill="none" opacity="0.5"/>
+      <!-- dew drops -->
+      <circle cx="55" cy="88" r="2.5" fill="#52B788" opacity="0.6"/>
+      <circle cx="128" cy="82" r="1.8" fill="#52B788" opacity="0.5"/>
+      <defs>
+        <linearGradient id="capGrad" x1="90" y1="30" x2="90" y2="100" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#52B788" stop-opacity="0.35"/>
+          <stop offset="100%" stop-color="#52B788" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+    </svg>
+
+    <div class="hero-stats-grid">
+      <div class="hero-stat">
+        <span class="hero-stat-num">10+</span>
+        <span class="hero-stat-label">Months at Labh Earth</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-num">4+</span>
+        <span class="hero-stat-label">Projects delivered</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-num">∞</span>
+        <span class="hero-stat-label">Batches managed</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-num">0</span>
+        <span class="hero-stat-label">Contaminated excuses</span>
+      </div>
+    </div>
+    <div class="hero-location">📍 India · Open to Remote &amp; Relocation</div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-inner">
+    <div class="section-label reveal">About me</div>
+    <h2 class="section-title reveal">From farm floor<br>to farm future</h2>
+    <div class="about-grid">
+      <div class="about-body reveal">
+        <p>
+          I'm Shivansh Mishra — a mushroom cultivation specialist and farm operations lead at <span class="about-highlight">Labh Earth</span>. My work sits at the intersection of applied biology, agricultural engineering, and practical agribusiness.
+        </p>
+        <p>
+          I don't just grow mushrooms. I <span class="about-highlight">design the environments, build the systems, write the SOPs</span>, and troubleshoot everything in between — so that farms run reliably, not just once but batch after batch.
+        </p>
+        <p>
+          Whether it's designing a new fruiting chamber from scratch, diagnosing a contamination problem, or helping a vendor partner set up their first oyster mushroom unit — I show up and figure it out.
+        </p>
+        <p>
+          I believe mushroom farming is one of India's most <span class="about-highlight">underrated agricultural opportunities</span> — and I'm here to build the infrastructure that proves it.
+        </p>
+      </div>
+      <div class="about-values reveal">
+        <div class="value-card">
+          <div class="value-icon">⚙️</div>
+          <div>
+            <h4>Systems thinker</h4>
+            <p>I design cultivation pipelines that run themselves — from substrate prep to final harvest.</p>
+          </div>
+        </div>
+        <div class="value-card">
+          <div class="value-icon">🌿</div>
+          <div>
+            <h4>Hands-on practitioner</h4>
+            <p>No theory without ground experience. Every process I recommend, I've run myself.</p>
+          </div>
+        </div>
+        <div class="value-card">
+          <div class="value-icon">🤝</div>
+          <div>
+            <h4>Vendor enabler</h4>
+            <p>I help partner farms replicate our model with structured training and SOPs.</p>
+          </div>
+        </div>
+        <div class="value-card">
+          <div class="value-icon">📈</div>
+          <div>
+            <h4>Growth-oriented</h4>
+            <p>Every setup I build is designed to scale — not just survive the first season.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-inner">
+    <div class="section-label reveal">Expertise</div>
+    <h2 class="section-title reveal">What I bring<br>to the farm</h2>
+    <p class="section-sub reveal">Core skills built through direct, daily practice in mushroom cultivation and agribusiness operations.</p>
+    <div class="skills-layout">
+      <div class="reveal">
+        <div class="skill-group-title">Core Cultivation Skills</div>
+        <div class="skill-bars">
+          <div class="skill-bar-item">
+            <div class="skill-bar-meta"><span>Mushroom Cultivation</span><span>95%</span></div>
+            <div class="skill-bar-track"><div class="skill-bar-fill" data-width="95"></div></div>
+          </div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-meta"><span>Farm Operations Management</span><span>90%</span></div>
+            <div class="skill-bar-track"><div class="skill-bar-fill" data-width="90"></div></div>
+          </div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-meta"><span>Substrate Preparation</span><span>92%</span></div>
+            <div class="skill-bar-track"><div class="skill-bar-fill" data-width="92"></div></div>
+          </div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-meta"><span>Quality Assurance & Contamination Control</span><span>88%</span></div>
+            <div class="skill-bar-track"><div class="skill-bar-fill" data-width="88"></div></div>
+          </div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-meta"><span>Fruiting Chamber Design</span><span>85%</span></div>
+            <div class="skill-bar-track"><div class="skill-bar-fill" data-width="85"></div></div>
+          </div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-meta"><span>SOP Development</span><span>80%</span></div>
+            <div class="skill-bar-track"><div class="skill-bar-fill" data-width="80"></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="reveal">
+        <div class="skill-group-title" style="margin-bottom:1.25rem">Additional Skills</div>
+        <div class="skill-chips">
+          <span class="chip">Agribusiness Strategy</span>
+          <span class="chip">Vendor Management</span>
+          <span class="chip">Sustainable Farming</span>
+          <span class="chip">Species Selection</span>
+          <span class="chip">Harvest Optimisation</span>
+          <span class="chip">Team Leadership</span>
+          <span class="chip">Supply Chain Basics</span>
+          <span class="chip">Agricultural Science</span>
+          <span class="chip">Production Planning</span>
+          <span class="chip">Partner Training</span>
+          <span class="chip">Oyster Mushroom</span>
+          <span class="chip">Button Mushroom</span>
+          <span class="chip">Milky Mushroom</span>
+          <span class="chip">Environmental Controls</span>
+          <span class="chip">Risk Management</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-inner">
+    <div class="section-label reveal">Experience</div>
+    <h2 class="section-title reveal">Where I've worked</h2>
+    <p class="section-sub reveal">My professional journey in mushroom cultivation and agribusiness operations.</p>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot current"></div>
+        <div class="timeline-period">Sep 2025 – Present</div>
+        <div class="timeline-role">Farm Operations Lead · Mushroom Cultivation Specialist</div>
+        <div class="timeline-org">Labh Earth</div>
+        <p class="timeline-summary">Leading end-to-end mushroom cultivation at Labh Earth — from farm design to quality harvest, with a focus on building replicable, scalable production systems.</p>
+        <ul class="timeline-bullets">
+          <li>Designed and set up functional mushroom cultivation spaces from scratch, standardising layout and equipment placement across multiple farm units</li>
+          <li>Managed full production cycles — substrate preparation, inoculation, incubation, and fruiting — maintaining consistent yield and quality across batches</li>
+          <li>Built replicable farm models and SOPs for external vendor partners, enabling independent operation of mushroom-growing units</li>
+          <li>Implemented quality assurance checkpoints across the production pipeline, reducing contamination risk and crop loss through early intervention</li>
+        </ul>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-period">Prior to Labh Earth</div>
+        <div class="timeline-role">Agricultural Research & Cultivation Training</div>
+        <div class="timeline-org">Self-directed · India</div>
+        <p class="timeline-summary">Built foundational expertise in mushroom biology, substrate science, and farm environment management through intensive hands-on practice.</p>
+        <ul class="timeline-bullets">
+          <li>Studied oyster, button, and specialty mushroom varieties — growth cycles, nutritional needs, and optimal fruiting conditions</li>
+          <li>Developed early understanding of contamination causes and prevention techniques that became central to professional work</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-inner">
+    <div class="section-label reveal">Projects</div>
+    <h2 class="section-title reveal">Work I'm proud of</h2>
+    <p class="section-sub reveal">Key initiatives at Labh Earth that demonstrate the scope of my cultivation and operations work.</p>
+    <div class="projects-grid">
+      <div class="project-card">
+        <div class="project-icon">🏗️</div>
+        <div class="project-title">Farm Setup — Zero to First Harvest</div>
+        <p class="project-desc">Designed and built a complete mushroom cultivation facility from scratch — spatial planning, equipment selection, substrate workflow, and environmental controls.</p>
+        <div class="project-tags">
+          <span class="tag">Farm Design</span>
+          <span class="tag">Operations</span>
+          <span class="tag">Labh Earth</span>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="project-icon">📋</div>
+        <div class="project-title">Vendor Replication Model & SOP Library</div>
+        <p class="project-desc">Built a structured SOP system enabling external vendor partners to independently replicate Labh Earth's cultivation model with consistent yields.</p>
+        <div class="project-tags">
+          <span class="tag">SOP Development</span>
+          <span class="tag">Vendor Training</span>
+          <span class="tag">Agribusiness</span>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="project-icon">🔬</div>
+        <div class="project-title">Contamination Control System</div>
+        <p class="project-desc">Developed and implemented a contamination early-warning and response protocol across the production cycle, significantly reducing crop loss per batch.</p>
+        <div class="project-tags">
+          <span class="tag">QA</span>
+          <span class="tag">Risk Management</span>
+          <span class="tag">Production</span>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="project-icon">🌱</div>
+        <div class="project-title">Multi-Species Production Planning</div>
+        <p class="project-desc">Planned and managed simultaneous production of multiple mushroom species — coordinating substrate timelines, environmental needs, and harvest windows in parallel.</p>
+        <div class="project-tags">
+          <span class="tag">Planning</span>
+          <span class="tag">Multi-species</span>
+          <span class="tag">Optimisation</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="section-inner">
+    <div class="section-label reveal">Education</div>
+    <h2 class="section-title reveal">Academic foundation</h2>
+    <p class="section-sub reveal">The learning that supports what I do on the ground every day.</p>
+    <div class="education-grid">
+      <div class="edu-card reveal">
+        <div class="edu-degree">B.Sc. / Diploma in Agriculture</div>
+        <div class="edu-school">Agriculture / Life Sciences · India</div>
+        <div class="edu-year">Graduation: 2024–25</div>
+      </div>
+      <div class="edu-card reveal">
+        <div class="edu-degree">Mushroom Cultivation Training</div>
+        <div class="edu-school">Hands-on Farm Practice · Labh Earth</div>
+        <div class="edu-year">2025 – Ongoing</div>
+      </div>
+      <div class="edu-card reveal">
+        <div class="edu-degree">Agribusiness & Farm Management</div>
+        <div class="edu-school">Self-directed Study · Various Resources</div>
+        <div class="edu-year">2024 – Present</div>
+      </div>
+    </div>
+    <p style="font-size:0.72rem;color:var(--text-faint);margin-top:1.5rem;" class="reveal">
+      * Please update education details with your exact degree, institution, and year.
+    </p>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-inner">
+    <div class="contact-wrap">
+      <div>
+        <div class="section-label reveal">Contact</div>
+        <h2 class="contact-tagline reveal">Let's build<br>something <em>together</em></h2>
+        <p class="contact-body reveal">Whether you're exploring mushroom farming as a venture, looking for a cultivation consultant, or want to discuss agribusiness partnerships — I'd love to connect.</p>
+        <div class="contact-items reveal">
+          <a href="mailto:shivanshmishra1977@gmail.com" class="contact-item">
+            <div class="contact-icon">✉</div>
+            shivanshmishra1977@gmail.com
+          </a>
+          <a href="https://www.linkedin.com/in/shivansh-mishra0717" target="_blank" rel="noopener" class="contact-item">
+            <div class="contact-icon">in</div>
+            linkedin.com/in/shivansh-mishra0717
+          </a>
+          <div class="contact-item">
+            <div class="contact-icon">📍</div>
+            India · Open to Remote &amp; Relocation
+          </div>
+        </div>
+      </div>
+      <div class="reveal">
+        <div class="contact-form">
+          <div class="form-row">
+            <input type="text" placeholder="Your name" />
+            <input type="email" placeholder="Email address" />
+          </div>
+          <input type="text" placeholder="Subject" />
+          <textarea placeholder="Tell me about your project or opportunity…"></textarea>
+          <button class="form-submit" onclick="handleSubmit(this)">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            Send message
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-copy">
+    Built with intention · <span>Shivansh Mishra</span> · 2025 · 🍄 Labh Earth
+  </div>
+  <div class="footer-links">
+    <a href="https://www.linkedin.com/in/shivansh-mishra0717" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="mailto:shivanshmishra1977@gmail.com">Email</a>
+    <a href="#hero">Back to top ↑</a>
+  </div>
+</footer>
+
+<script>
+/* ── NAV SCROLL ── */
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 40);
+});
+
+/* ── MOBILE MENU ── */
+function toggleMenu() {
+  document.getElementById('navLinks').classList.toggle('open');
+}
+function closeMenu() {
+  document.getElementById('navLinks').classList.remove('open');
+}
+
+/* ── INTERSECTION OBSERVER: REVEAL ── */
+const revealEls = document.querySelectorAll('.reveal, .timeline-item, .project-card');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => {
+        entry.target.classList.add('visible');
+        // Animate skill bars
+        const bars = entry.target.querySelectorAll('.skill-bar-fill[data-width]');
+        bars.forEach(bar => {
+          bar.style.width = bar.dataset.width + '%';
+        });
+      }, i * 80);
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12 });
+revealEls.forEach(el => observer.observe(el));
+
+/* ── SKILL BAR OBSERVER ── */
+const skillSection = document.getElementById('skills');
+const skillObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      document.querySelectorAll('.skill-bar-fill[data-width]').forEach(bar => {
+        bar.style.width = bar.dataset.width + '%';
+      });
+      skillObserver.disconnect();
+    }
+  });
+}, { threshold: 0.2 });
+skillObserver.observe(skillSection);
+
+/* ── FORM SUBMIT MOCK ── */
+function handleSubmit(btn) {
+  const orig = btn.innerHTML;
+  btn.innerHTML = '✓ Message sent!';
+  btn.style.background = '#52B788';
+  btn.disabled = true;
+  setTimeout(() => {
+    btn.innerHTML = orig;
+    btn.style.background = '';
+    btn.disabled = false;
+  }, 3000);
+}
+
+/* ── STAGGERED PROJECT CARDS ── */
+document.querySelectorAll('.project-card').forEach((card, i) => {
+  card.style.transitionDelay = (i * 100) + 'ms';
+});
+</script>
+</body>
+</html>
